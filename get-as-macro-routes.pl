@@ -1,18 +1,27 @@
 #!/usr/bin/perl
 
 use Net::IRR;
+use Getopt::Long;
 use strict;
 
-my $VERBOSE = 1;
+my $VERBOSE = 0;
 
 my $host = 'whois.radb.net';
 my $as_set = "AS-NETSOURCE";
 
-my $connection = Net::IRR->connect( host => $host) || die "Cannot connect to $host\n";
+
+my $result = GetOptions("verbose" => \$VERBOSE);
+
+# Always access ARGV after calling GetOptions
 
 if($ARGV[0]) {
 	$as_set = $ARGV[0];
 } 
+
+# Moved the connection statement down as it makes more sense to only 
+# set the values when all the inputs are defined.
+
+my $connection = Net::IRR->connect( host => $host) || die "Cannot connect to $host\n";
 
 my @routes = get_routes_for_as_set($as_set);
 
