@@ -3,7 +3,7 @@
 use Net::IRR;
 use strict;
 
-my $DEBUG = 0;
+my $VERBOSE = 1;
 
 my $host = 'whois.radb.net';
 my $as_set = "AS-NETSOURCE";
@@ -39,9 +39,10 @@ sub get_routes_for_as_set {
 	
 	foreach $as_num (@aslist) {
 		@routes = uniq(@routes, $connection->get_routes_by_origin($as_num));
-		if($DEBUG) {
+		if($VERBOSE) {
 			print "After looking for $as_num we now have found $#routes\n";
-			print "@routes\n";
+			print join "\n", @routes;
+			print "\n";
 		}
 	}
 
